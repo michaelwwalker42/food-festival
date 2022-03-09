@@ -4,6 +4,8 @@ const webpack = require("webpack");
 // a plugin that will analyze our bundle sizes to see how much JavaScript is being processed by the browser.
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
+const WebpackPwaManifest = require("webpack-pwa-manifest");
+
 module.exports = {
   entry: {
     app: "./assets/js/script.js",
@@ -51,6 +53,21 @@ module.exports = {
     // Notice that when we added the BundleAnalyzerPlugin, we configured the analyzerMode property with a static value. This will output an HTML file called report.html that will generate in the dist folder. We can also set this value to disable to temporarily stop the reporting and automatic opening of this report in the browser.
     new BundleAnalyzerPlugin({
       analyzerMode: "static", // the report outputs to an HTML file in the dist folder
+    }),
+    new WebpackPwaManifest({
+      name: "Food Event",
+      short_name: "Foodies",
+      description: "An app that allows you to view upcoming food events.",
+      start_url: "../index.html",
+      background_color: "#01579b",
+      theme_color: "#ffffff",
+      fingerprints: false,
+      inject: false,
+      icons: [{
+        src: path.resolve("assets/img/icons/icon-512x512.png"),
+        sizes: [96, 128, 192, 256, 384, 512],
+        destination: path.join("assets", "icons")
+      }]
     })
   ],
   // By default, webpack wants to run in production mode. 
